@@ -25,7 +25,7 @@ function multipleLine(data) {
 
   //SVG  
     // Set dimensions and margins for the chart
-    const margin = {top: 50, right: 130, bottom: 50, left: 100};
+    const margin = {top: 50, right: 140, bottom: 50, left: 100};
     const width = 1000 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
     
@@ -66,7 +66,7 @@ function multipleLine(data) {
       .attr("x", width / 2)
       .attr("y", height + margin.top) // Adjust the position based on your preference
       .style("text-anchor", "middle")
-      .style("font-size", 12)
+      .style("font-size", 13)
       .text("Year");
 
     // Add y-axis label "Energy Use Per Person kWh" and rotate it
@@ -76,7 +76,7 @@ function multipleLine(data) {
       .attr("y", -margin.left + 15)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .style("font-size", 12)
+      .style("font-size", 13)
       .text("Energy Use Per Person (kWh)");
    
 
@@ -97,8 +97,6 @@ function multipleLine(data) {
       .attr('stroke', d => cs(d.key))
       .attr('stroke-width', 3)
       .attr('d', d => line(d.values));
-
-    
 
     // svg.selectAll('circle')
     //   .data(grouped_data)
@@ -125,14 +123,14 @@ function multipleLine(data) {
       .attr('class', 'legend');
 
     legend.append('circle')
-      .attr('cx', width + margin.left + 25)
-      .attr('cy', (d, i) => i * 35 + margin.top + 50)
+      .attr('cx', width + margin.left + 20)
+      .attr('cy', (d, i) => i * 35 + margin.top + 5)
       .attr('r', 5)
       .style('fill', d => cs(d.key))
 
     legend.append('text')
-    .attr('x', width + margin.left + 32)
-    .attr('y', (d, i) => i * 35 + margin.top + 54)
+    .attr('x', width + margin.left + 25)
+    .attr('y', (d, i) => i * 35 + margin.top + 9)
     .text(d => d.key)
     .style("font-size", 12)
 

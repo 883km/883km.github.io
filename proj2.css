@@ -13,8 +13,7 @@ main {
 	position: fixed;
 	top: 50px; /* Set this to the height of the header */
 	bottom: 50px; /* Set this to the height of the footer */
-	left: 200px; 
-	right: 200px;
+	left: 420px; 
 	overflow: auto; 
 	background: #fff;
 }
@@ -44,19 +43,9 @@ main {
 	top: 50px; /* Set this to the height of the header */
 	bottom: 50px; /* Set this to the height of the footer */
 	left: 0; 
-	width: 200px;
+	width: 420px;
 	overflow: auto; /* Scrollbars will appear on this frame only when there's enough content to require scrolling. To disable scrollbars, change to "hidden", or use "scroll" to enable permanent scrollbars */
 	background: #DAE9BC; 		
-}
-
-#right {
-	position: absolute; 
-	top: 50px; /* Set this to the height of the header */
-	bottom: 50px; /* Set this to the height of the footer */
-	right: 0; 
-	width: 200px;
-	overflow: auto; /* Scrollbars will appear on this frame only when there's enough content to require scrolling. To disable scrollbars, change to "hidden", or use "scroll" to enable permanent scrollbars */
-	background: #F7FDEB; 		
 }
 		
 .innertube {
