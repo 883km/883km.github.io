@@ -11,20 +11,21 @@ async function init() {
         return d.entity_type == "region";
     });
 
-    // Create nested data
-    // const nested_data = d3.nest()
-    //   .key(d => d.entity)
-    //   .entries(data)
+    multipleLine(data)
+  }
+    
+function multipleLine(data) {
+  // GROUP DATA
     const grouped_data = Array.from(d3.group(data, (d) => d.entity), ([key, values]) => ({
       key,
       values,
     }))
     console.log(grouped_data)
     console.log(grouped_data.map(d => d.key))
-    
+
   //SVG  
     // Set dimensions and margins for the chart
-    const margin = {top: 40, right: 100, bottom: 100, left: 100};
+    const margin = {top: 50, right: 130, bottom: 50, left: 100};
     const width = 1000 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
     
@@ -36,6 +37,7 @@ async function init() {
       .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
   
+
   // SCALE AND AXIS
     // Set up the x and y scales, color scales and domains
     const xs = d3.scaleLinear()
@@ -51,15 +53,33 @@ async function init() {
       .range(d3.schemeTableau10);
     console.log(cs)
     
-    // Add the x-axis
+    // Add the x & y axis
     svg.append("g")
       .attr("transform", `translate(0,${height})`)
       .call(d3.axisBottom(xs)); 
-    
-    // Add the y-axis
+
     svg.append("g")
       .call(d3.axisLeft(ys)); // TODO: ticks?
+
+    // Add x-axis label "Year"
+    svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", height + margin.top) // Adjust the position based on your preference
+      .style("text-anchor", "middle")
+      .style("font-size", 12)
+      .text("Year");
+
+    // Add y-axis label "Energy Use Per Person kWh" and rotate it
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", 0 - height / 2)
+      .attr("y", -margin.left + 15)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", 12)
+      .text("Energy Use Per Person (kWh)");
    
+
   // DRAW LINES    
     // Create the line generator
     const line = d3.line()
@@ -72,6 +92,7 @@ async function init() {
       .enter()
       .append('g')
       .append('path')
+      .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', d => cs(d.key))
       .attr('stroke-width', 3)
@@ -89,6 +110,40 @@ async function init() {
     //   .attr('cy', d => ys(d.primary_energy_consumption_per_capita))
     //   .attr('r', 3)
     //   .attr('fill', d => cs(d.entity))
+    
+
+  // COLOR LEGEND & TITLE
+    //append legends
+    const legend = d3.select('svg')
+      .selectAll('g.legend')
+      .data(grouped_data)
+      .enter()
+      .append('g')
+
+      .attr('class', 'legend');
+
+    legend.append('circle')
+      .attr('cx', width + margin.left + 25)
+      .attr('cy', (d, i) => i * 35 + margin.top + 50)
+      .attr('r', 5)
+      .style('fill', d => cs(d.key))
+
+    legend.append('text')
+    .attr('x', width + margin.left + 32)
+    .attr('y', (d, i) => i * 35 + margin.top + 54)
+    .text(d => d.key)
+    .style("font-size", 12)
+
+    //append title
+    d3.select("svg")
+    .append("text")
+    .attr("x", 485)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .text("Energy Use Per Person, 1965 - 2022")
+    .style("fill", "black")
+    .style("font-size", 20)
+    .style("font-family", "Arial Black")
 
 }
 
