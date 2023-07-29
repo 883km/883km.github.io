@@ -82,9 +82,16 @@ function multipleLine(data) {
 
   // DRAW LINES    
     // Create the line generator
-    const line = d3.line()
-      .x(d => xs(d.year))
-      .y(d => ys(d.primary_energy_consumption_per_capita));
+    // const line = d3.line()
+    //   .x(d => xs(d.year))
+    //   .y(d => ys(d.primary_energy_consumption_per_capita));
+    
+      const line = d3.line()
+    .x(d => xs(d.year))
+    .y(d => {
+      // Check if the value is NaN, and return 0 if it is
+      return isNaN(d.primary_energy_consumption_per_capita) ? 0 : ys(d.primary_energy_consumption_per_capita);
+    });
     
     // Add the line paths to the SVG element
     svg.selectAll('.line')
