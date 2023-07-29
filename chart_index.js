@@ -5,10 +5,7 @@ async function init() {
         d.gdp = +d.gdp;
         d.primary_energy_consumption_per_capita = +d.primary_energy_consumption_per_capita;
       });
-}
 
-async function lineChart1() {
-    init()
     data = dataset.filter(function(d) {
         return d.country_cde == "";
     });
@@ -47,19 +44,20 @@ async function lineChart1() {
       .call(d3.axisLeft(ys)) // TODO: ticks?
 
     // Create nested data
-    const nested_data = d3.nest()
-      .key(d => d.entity)
-      .entries(data)
+    // const nested_data = d3.nest()
+    //   .key(d => d.entity)
+    //   .entries(data)
+    const grouped_data = d3.group(data, d => d.entity)
+    console.log(dataset)
     
     // Create the line generator
     const line = d3.line()
       .x(d => xs(d.year))
-      .y(d => ys(d.primary_energy_consumption_per_capita))
-      .curve(curveBasis);
+      .y(d => ys(d.primary_energy_consumption_per_capita));
     
     // Add the line paths to the SVG element
     svg.selectAll('path')
-    .data(nested_data)
+    .data(grouped_data)
     .enter()
     .append('path')
     .attr("d", d => line(d.values));
