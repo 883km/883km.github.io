@@ -1,4 +1,4 @@
-async function lineChart1() {
+async function init() {
     dataset = await d3.csv('https://883km.github.io/per-capita-energy-use.csv');
     dataset.forEach(d => {
         d.year = +d.year; // Using unary plus operator to convert to number
