@@ -1,4 +1,5 @@
 async function init() {
+  // PARSE DATA
     dataset = await d3.csv('https://883km.github.io/dataset.csv');
     dataset.forEach(d => {
         d.year = +d.year; // Using unary plus operator to convert to number
@@ -7,39 +8,8 @@ async function init() {
       });
 
     data = dataset.filter(function(d) {
-        return d.country_cde == "";
+        return d.entity_type == "region";
     });
-    
-    // Set dimensions and margins for the chart
-    const margin = {top: 40, right: 50, bottom: 40, left: 50};
-    const width = 1000 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
-    
-    // Create the SVG element and append it to the chart container
-    const svg = d3.select("#chart0") // TODO
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-    
-    // Set up the x and y scales and domains
-    const xs = d3.scaleLinear()
-      .range([0, width])
-      .domain(d3.extent(data, d => d.year));
-    
-    const ys = d3.scaleLinear()
-      .range([height, 0])
-      .domain([0, d3.max(data, d => d.primary_energy_consumption_per_capita)]);
-    
-    // Add the x-axis
-    svg.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xs)); 
-    
-    // Add the y-axis
-    svg.append("g")
-      .call(d3.axisLeft(ys)); // TODO: ticks?
 
     // Create nested data
     // const nested_data = d3.nest()
@@ -50,20 +20,75 @@ async function init() {
       values,
     }))
     console.log(grouped_data)
+    console.log(grouped_data.map(d => d.key))
     
+  //SVG  
+    // Set dimensions and margins for the chart
+    const margin = {top: 40, right: 100, bottom: 100, left: 100};
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+    
+    // Create the SVG element and append it to the chart container
+    const svg = d3.select("#chart0")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+  
+  // SCALE AND AXIS
+    // Set up the x and y scales, color scales and domains
+    const xs = d3.scaleLinear()
+      .range([0, width])
+      .domain(d3.extent(data, d => d.year));
+    
+    const ys = d3.scaleLinear()
+      .range([height, 0])
+      .domain([0, d3.max(data, d => d.primary_energy_consumption_per_capita) + 5000]);
+
+    const cs = d3.scaleOrdinal()
+      .domain(grouped_data.map(d => d.key))
+      .range(d3.schemeTableau10);
+    console.log(cs)
+    
+    // Add the x-axis
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xs)); 
+    
+    // Add the y-axis
+    svg.append("g")
+      .call(d3.axisLeft(ys)); // TODO: ticks?
+   
+  // DRAW LINES    
     // Create the line generator
     const line = d3.line()
       .x(d => xs(d.year))
       .y(d => ys(d.primary_energy_consumption_per_capita));
     
     // Add the line paths to the SVG element
-    svg.selectAll('path')
-    .data(grouped_data)
-    .enter()
-    .append('path')
-    .attr('fill', 'none')
-    .attr('stroke', 'blue')
-    .attr('stroke-width', 5)
-    .attr('d', d => line(d.values));
+    svg.selectAll('.line')
+      .data(grouped_data)
+      .enter()
+      .append('g')
+      .append('path')
+      .attr('fill', 'none')
+      .attr('stroke', d => cs(d.key))
+      .attr('stroke-width', 3)
+      .attr('d', d => line(d.values));
+
+    // svg.selectAll('circle')
+    //   .data(grouped_data)
+    //   .enter()
+    //   .append('g')
+    //   .selectAll('circle')
+    //   .data(d => d.values)
+    //   .enter()
+    //   .append('circle')
+    //   .attr('cx', d => xs(d.year))
+    //   .attr('cy', d => ys(d.primary_energy_consumption_per_capita))
+    //   .attr('r', 3)
+    //   .attr('fill', d => cs(d.entity))
+
 }
 
