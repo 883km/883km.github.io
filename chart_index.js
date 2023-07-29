@@ -1,5 +1,5 @@
 async function init() {
-    dataset = await d3.csv('https://883km.github.io/per-capita-energy-use.csv');
+    dataset = await d3.csv('https://883km.github.io/dataset.csv');
     dataset.forEach(d => {
         d.year = +d.year; // Using unary plus operator to convert to number
         d.gdp = +d.gdp;
@@ -47,8 +47,11 @@ async function init() {
     // const nested_data = d3.nest()
     //   .key(d => d.entity)
     //   .entries(data)
-    const grouped_data = d3.group(data, d => d.entity)
-    console.log(dataset)
+    const grouped_data = Array.from(d3.group(data, (d) => d.entity), ([key, values]) => ({
+      key,
+      values,
+    }))
+    console.log(grouped_data)
     
     // Create the line generator
     const line = d3.line()
