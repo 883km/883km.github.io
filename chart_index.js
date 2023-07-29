@@ -35,13 +35,11 @@ async function init() {
     // Add the x-axis
     svg.append("g")
       .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xs)
-        .ticks(d3.timeMonth.every(1)) //TODO
-        .tickFormat(d3.timeFormat("%b %Y"))); 
+      .call(d3.axisBottom(xs)); 
     
     // Add the y-axis
     svg.append("g")
-      .call(d3.axisLeft(ys)) // TODO: ticks?
+      .call(d3.axisLeft(ys)); // TODO: ticks?
 
     // Create nested data
     // const nested_data = d3.nest()
@@ -63,6 +61,9 @@ async function init() {
     .data(grouped_data)
     .enter()
     .append('path')
-    .attr("d", d => line(d.values));
+    .attr('fill', 'none')
+    .attr('stroke', 'blue')
+    .attr('stroke-width', 5)
+    .attr('d', d => line(d.values));
 }
 
