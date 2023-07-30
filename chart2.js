@@ -74,35 +74,37 @@ async function oneLine() {
       .style("text-anchor", "middle")
       .style("font-size", 13)
       .text("Energy Use Per Person (kWh)");
-  }
-  
-  //////////////////////////////////////////////////////////////////////////////////
-  async function renderThirdChart() {
-  
+
+
+  // DRAW LINES
     // Initialize line with group 'world'
-    const firstCountryData = filteredData.filter(function(d) {
-        return d.entity === entities[0]
+    const worldData = data.filter(function(d) {
+        return d.entity == 'World'
     });
     const line = svg
         .append('g')
         .append("path")
         .attr("id", "line-" + entities[0])
-        .datum(firstCountryData)
+        .data(worldData)
         .attr("d", d3.line()
             .x(function(d) {
-                return x(Number(d.year))
+                return x(d.year)
             })
             .y(function(d) {
-                return y(Number(d.productivity))
+                return y(d.primary_energy_consumption_per_capita)
             })
         )
-        .attr("stroke", function(d) {
-            return myColor(d.entity)
-        })
+        .attr("stroke", 'blue')
         .style("stroke-width", 4)
         .style("fill", "none")
-    const mostRecentFirstCountryData = firstCountryData[firstCountryData.length - 1]
+    const mostRecentFirstCountryData = worldData[worldData.length - 1]
     renderThirdChartAnnotations(mostRecentFirstCountryData, x(Number(mostRecentFirstCountryData.year)) - 10, y(Number(mostRecentFirstCountryData.productivity)) - 10, margin);
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////////
+  async function renderThirdChart() {
+  
+
   
     function update(selectedGroup) {
         // Create new data with the selection?
