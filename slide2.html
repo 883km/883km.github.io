@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>TESTing CS416 Project 2 by Sicheng Meng</title>
+		<title>2TESTing CS416 Project 2 by Sicheng Meng</title>
         <script src='https://d3js.org/d3.v7.min.js'></script>
-		<script src="chart_index.js"></script>
+		<script src="chart2.js"></script>
         <link rel="stylesheet" href="./proj2.css">
 	
 	</head>
 	
-	<body onload='initLineRegion()'>		
+	<body onload='oneLine()'>		
 
 		<header id="header">
 			<div class="innertube">
@@ -20,9 +20,8 @@
 		<main>
 			<div class="innertube">
 
-                <div id="chart0">
-                </div>
-
+				<select id="select-country"></select>
+                <div id="chart2"></div>
 				
 			</div>
 
@@ -39,11 +38,7 @@
 				</ul>
 
                 <p> </p>
-            <div class="button1-container">
-                <button class="button1" onclick="initLineRegion()">Geographic Region</button>
-                <p> </p>
-                <button class="button1" onclick="initLineEco()">Economical Region</button>
-            </div>
+
 
 			</div>
 		</div>	

@@ -1,6 +1,6 @@
 async function initLineRegion() {
   // PARSE DATA
-    const chartContainer = document.getElementById('chart0');
+    const chartContainer = document.getElementById('chart1');
     chartContainer.innerHTML = '';
     
     dataset = await d3.csv('https://883km.github.io/dataset.csv');
@@ -19,7 +19,7 @@ async function initLineRegion() {
 
   async function initLineEco() {
     // PARSE DATA
-      const chartContainer = document.getElementById('chart0');
+      const chartContainer = document.getElementById('chart1');
       chartContainer.innerHTML = '';
 
       dataset = await d3.csv('https://883km.github.io/dataset.csv');
@@ -52,7 +52,7 @@ function multipleLine(data) {
     const height = 600 - margin.top - margin.bottom;
     
     // Create the SVG element and append it to the chart container
-    const svg = d3.select("#chart0")
+    const svg = d3.select("#chart1")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -86,7 +86,7 @@ function multipleLine(data) {
     // Add x-axis label "Year"
     svg.append("text")
       .attr("x", width / 2)
-      .attr("y", height + margin.top) // Adjust the position based on your preference
+      .attr("y", height + margin.top)
       .style("text-anchor", "middle")
       .style("font-size", 13)
       .text("Year");
@@ -168,4 +168,3 @@ function multipleLine(data) {
     .style("font-family", "Arial Black")
 
 }
-
