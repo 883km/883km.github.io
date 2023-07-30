@@ -33,7 +33,7 @@ main {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 50px; 
+	height: 60px; 
 	overflow: hidden; /* Disables scrollbars on the footer frame. To enable scrollbars, change "hidden" to "scroll" */
 	background: #BCCE98;
 }
@@ -65,6 +65,43 @@ nav ul {
 nav ul a {
 	color: darkgreen;
 	text-decoration: none;
+}
+
+.bulletpoint li {
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.button1-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* Align items (buttons) in the center horizontally */
+	justify-content: center; /* Align items (buttons) in the center vertically */
+	height: 100%; /* Make the container take full height of the parent */
+}
+
+.button1 {
+	font-size: 18px;
+	padding: 10px 10px;
+	height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonnext-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end; /* Align items (buttons) in the center horizontally */
+	justify-content: center; /* Align items (buttons) in the center vertically */
+	height: 100%; /* Make the container take full height of the parent */
+}
+
+.next-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    height: 45px; /* Adjust the height of the button as needed */
+    border-radius: 5px; /* Add rounded corners to the button */
+    cursor: pointer; /* Change the cursor to a hand when hovering over the button */
 }
 		
 /*IE6 fix*/

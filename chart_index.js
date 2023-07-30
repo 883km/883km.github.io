@@ -1,5 +1,8 @@
-async function init() {
+async function initLineRegion() {
   // PARSE DATA
+    const chartContainer = document.getElementById('chart0');
+    chartContainer.innerHTML = '';
+    
     dataset = await d3.csv('https://883km.github.io/dataset.csv');
     dataset.forEach(d => {
         d.year = +d.year; // Using unary plus operator to convert to number
@@ -13,6 +16,25 @@ async function init() {
 
     multipleLine(data)
   }
+
+  async function initLineEco() {
+    // PARSE DATA
+      const chartContainer = document.getElementById('chart0');
+      chartContainer.innerHTML = '';
+
+      dataset = await d3.csv('https://883km.github.io/dataset.csv');
+      dataset.forEach(d => {
+          d.year = +d.year; // Using unary plus operator to convert to number
+          d.gdp = +d.gdp;
+          d.primary_energy_consumption_per_capita = +d.primary_energy_consumption_per_capita;
+        });
+  
+      data = dataset.filter(function(d) {
+          return d.entity_type == "eco_region";
+      });
+  
+      multipleLine(data)
+    }
     
 function multipleLine(data) {
   // GROUP DATA
@@ -129,7 +151,7 @@ function multipleLine(data) {
       .style('fill', d => cs(d.key))
 
     legend.append('text')
-    .attr('x', width + margin.left + 25)
+    .attr('x', width + margin.left + 27)
     .attr('y', (d, i) => i * 35 + margin.top + 9)
     .text(d => d.key)
     .style("font-size", 12)
