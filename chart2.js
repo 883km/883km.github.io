@@ -10,20 +10,6 @@ async function oneLine() {
         return d.entity_type == "country";
       });
 
-  // SVG  
-    // Set dimensions and margins for the chart
-    const margin = {top: 50, right: 140, bottom: 50, left: 100};
-    const width = 1000 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
-    
-    // Create the SVG element and append it to the chart container
-    const svg = d3.select("#chart2")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`)
-
   // GET COUNTRY
     const entities = Array.from(new Set(data.map(d => d.entity)));
     console.log(entities)
@@ -39,8 +25,22 @@ async function oneLine() {
             return d;
         }) // corresponding value returned by the button
 
+  // SVG  
+    // Set dimensions and margins for the chart
+    const margin = {top: 50, right: 140, bottom: 50, left: 100};
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+    
+    // Create the SVG element and append it to the chart container
+    const svg = d3.select("#chart2")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`)
+
   // SCALE AND AXIS
-    // Set up the x and y scales, color scales and domains
+    // Set up the x and y scales, color scales and domains /////////COLOR?
     const xs = d3.scaleLinear()
       .range([0, width])
       .domain(d3.extent(data, d => d.year));
@@ -79,7 +79,7 @@ async function oneLine() {
   //////////////////////////////////////////////////////////////////////////////////
   async function renderThirdChart() {
   
-    // Initialize line with group a
+    // Initialize line with group 'world'
     const firstCountryData = filteredData.filter(function(d) {
         return d.entity === entities[0]
     });
