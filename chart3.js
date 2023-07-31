@@ -11,7 +11,7 @@ async function initScatterplot() {
     });
 
     data = dataset.filter(function (d) {
-        return d.entity_type == "country" && d.year == 2018;
+        return d.entity_type == "country" && d.year == 2018 && d.gdp > 0.0001;
     });
 
 
@@ -41,6 +41,7 @@ async function initScatterplot() {
         .domain(d3.extent(data, d => d.primary_energy_consumption_per_capita));
 
     const cs = d3.scaleOrdinal()
+        .range(d3.extent(data, d => d.))
 
     // Add the x & y axis
     svg.append("g")
