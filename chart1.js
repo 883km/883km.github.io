@@ -101,6 +101,39 @@ function multipleLine(data) {
     .style("font-size", 13)
     .text("Energy Use Per Person (kWh)");
 
+  // ANNOTATION!
+  // Add a vertical line at year 2020
+  const verticalLineX = xs(2020);
+
+  svg.append("line")
+    .attr("x1", verticalLineX)
+    .attr("y1", 0)
+    .attr("x2", verticalLineX)
+    .attr("y2", height)
+    .attr("stroke", "grey") // You can change the line color here
+    .attr("stroke-width", 2)
+    .attr("stroke-dasharray", "5,5"); // Adding dashes to the line for better visibility
+
+  // Add an annotation for the vertical line
+  svg.append("text")
+    .attr("x", verticalLineX - 80)
+    .attr("y", 270)
+    .style("text-anchor", "middle")
+    .style("font-size", 12)
+    .text("        Fun fact:      ---------->");
+  svg.append("text")
+    .attr("x", verticalLineX - 80)
+    .attr("y", 285)
+    .style("text-anchor", "middle")
+    .style("font-size", 12)
+    .text("Global energy consumption");
+  svg.append("text")
+    .attr("x", verticalLineX - 80)
+    .attr("y", 300)
+    .style("text-anchor", "middle")
+    .style("font-size", 12)
+    .text("slashed due to the pandemic");
+
 
   // DRAW LINES    
   // Create the line generator
