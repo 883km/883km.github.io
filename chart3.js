@@ -82,15 +82,34 @@ async function initScatterplot() {
         .style("font-family", "Arial Black")
 
 
+    // COLOR LEGEND & TITLE
+    //append legends
+    const continents = Array.from(new Set(data.map(d => d.continent)));
+    const legendData = continents.map((continent, i) => ({ continent, index: i }));
+
+    const legend = d3.select('svg')
+        .selectAll('g.legend')
+        .data(legendData)
+        .enter()
+        .append('g')
+        .attr('class', 'legend');
+
+    legend.append('circle')
+        .attr('cx', width + margin.left + 50)
+        .attr('cy', (d, i) => i * 35 + margin.top + 5)
+        .attr('r', 6)
+        .style('fill', d => cs(d.continent))
+        .style('opacity', 0.7);
+
+    legend.append('text')
+        .attr('x', width + margin.left + 57)
+        .attr('y', (d, i) => i * 35 + margin.top + 9)
+        .text(d => d.continent)
+        .style("font-size", 12);
+
+
     // DRAW SCATTERPLOT    
     //
-    console.log("X Domain:", d3.extent(data, d => d.primary_energy_consumption_per_capita));
-    console.log("X Range:", [0, width]);
-    console.log("Y Domain:", d3.extent(data, d => d.gdp));
-    console.log("Y Range:", [height, 0]);
-    console.log("Calculated CX:", d => xs(d.primary_energy_consumption_per_capita));
-    console.log("Calculated CY:", d => ys(d.gdp));
-
     svg.append('g')
         .selectAll("circle")
         .data(data)
@@ -110,9 +129,45 @@ async function initScatterplot() {
             console.log("Calculated CY:", cy);
             return cy;
         })
-        .attr("r", 5)
+        .attr("r", 6)
         .style("fill", d => cs(d.continent))
-        .style("opacity", 0.7);
+        .style("opacity", 0.7)
+        // Add the mouseover event to show the tooltip
+        .on("mouseover", function (event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 0.9)
+                .style("left", event.pageX - 400 + "px")
+                .style("top", event.pageY - 100 + "px");
+
+            tooltip.html(`
+                Country: ${d.entity}<br>
+                Energy Consumption PC: ${d.primary_energy_consumption_per_capita} kWh<br>
+                GDP: ${d.gdp} billion
+            `);
+        })
+        // Add the mouseout event to hide the tooltip
+        .on("mouseout", function () {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+
+
+    // ADD TOOLTIPS
+    const tooltip = d3.select("#chart3")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("background-color", "white")
+        .style("border", "1px solid #ddd")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "6px")
+        .style("position", "absolute")
+        .style("pointer-events", "none")
+        .style("font-size", "12px");
+
 
 
 }

@@ -107,6 +107,7 @@ nav ul a {
     border-radius: 5px; /* Add rounded corners to the button */
     cursor: pointer; /* Change the cursor to a hand when hovering over the button */
 }
+
 		
 /*IE6 fix*/
 * html body{

@@ -173,20 +173,19 @@ function multipleLine(data) {
     .data(grouped_data)
     .enter()
     .append('g')
-
     .attr('class', 'legend');
 
   legend.append('circle')
     .attr('cx', width + margin.left + 20)
     .attr('cy', (d, i) => i * 35 + margin.top + 5)
     .attr('r', 5)
-    .style('fill', d => cs(d.key))
+    .style('fill', d => cs(d.key));
 
   legend.append('text')
     .attr('x', width + margin.left + 27)
     .attr('y', (d, i) => i * 35 + margin.top + 9)
     .text(d => d.key)
-    .style("font-size", 12)
+    .style("font-size", 12);
 
   //append title
   d3.select("svg")
