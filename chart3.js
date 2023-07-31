@@ -33,11 +33,11 @@ async function initScatterplot() {
 
     // SCALE AND AXIS
     // Set up the x, y and color scales and domains
-    const xs = d3.scaleLinear()
+    const xs = d3.scaleLog()
         .range([0, width])
         .domain(d3.extent(data, d => d.gdp))
 
-    const ys = d3.scaleLinear()
+    const ys = d3.scaleLog()
         .range([height, 0])
         .domain(d3.extent(data, d => d.primary_energy_consumption_per_capita));
 
@@ -58,7 +58,7 @@ async function initScatterplot() {
         .attr("y", height + margin.top)
         .style("text-anchor", "middle")
         .style("font-size", 13)
-        .text("GDP (Billion)");
+        .text("logarithmic GDP (Billion)");
 
     // Add y-axis label "Energy Use Per Person kWh" and rotate it
     svg.append("text")
@@ -68,7 +68,7 @@ async function initScatterplot() {
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .style("font-size", 13)
-        .text("Energy Use Per Person (kWh)");
+        .text("logarithmic Energy Use Per Person (kWh)");
 
     //append title
     d3.select("svg")
@@ -111,7 +111,8 @@ async function initScatterplot() {
             return cy;
         })
         .attr("r", 5)
-        .style("fill", d => cs(d.continent));
+        .style("fill", d => cs(d.continent))
+        .style("opacity", 0.7);
 
 
 }
