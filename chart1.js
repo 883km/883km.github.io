@@ -73,7 +73,6 @@ function multipleLine(data) {
   const cs = d3.scaleOrdinal()
     .domain(grouped_data.map(d => d.key))
     .range(d3.schemeTableau10);
-  console.log(cs)
 
   // Add the x & y axis
   svg.append("g")

@@ -13,6 +13,7 @@ async function initScatterplot() {
     data = dataset.filter(function (d) {
         return d.entity_type == "country" && d.year == 2018 && d.gdp > 0.0001;
     });
+    console.log(data)
 
 
     //SVG  
@@ -41,7 +42,8 @@ async function initScatterplot() {
         .domain(d3.extent(data, d => d.primary_energy_consumption_per_capita));
 
     const cs = d3.scaleOrdinal()
-        .range(d3.extent(data, d => d.))
+        .range(d3.schemeTableau10)
+        .domain(d3.extent(data, d => d.continent));
 
     // Add the x & y axis
     svg.append("g")
@@ -81,17 +83,35 @@ async function initScatterplot() {
 
 
     // DRAW SCATTERPLOT    
-    // Create the line generator
-    const line = d3.line()
-        .x(d => xs(d.year))
-        .y(d => ys(d.primary_energy_consumption_per_capita));
+    //
+    console.log("X Domain:", d3.extent(data, d => d.primary_energy_consumption_per_capita));
+    console.log("X Range:", [0, width]);
+    console.log("Y Domain:", d3.extent(data, d => d.gdp));
+    console.log("Y Range:", [height, 0]);
+    console.log("Calculated CX:", d => xs(d.primary_energy_consumption_per_capita));
+    console.log("Calculated CY:", d => ys(d.gdp));
 
-    // Add the line paths to the SVG element
-    svg.append('path')
-        .attr('class', 'line')
-        .attr('fill', 'none')
-        .attr('stroke', 'steelblue')
-        .attr('stroke-width', 3)
-        .attr('d', line(data));
+    svg.append('g')
+        .selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => {
+            const cx = xs(d.gdp);
+            console.log(d.entity)
+            console.log("Primary Energy Consumption:", d.primary_energy_consumption_per_capita);
+            console.log("Calculated CX:", cx);
+            return cx;
+        })
+        .attr("cy", d => {
+            const cy = ys(d.primary_energy_consumption_per_capita);
+            console.log(d.entity)
+            console.log("GDP:", d.gdp);
+            console.log("Calculated CY:", cy);
+            return cy;
+        })
+        .attr("r", 5)
+        .style("fill", d => cs(d.continent));
+
 
 }
