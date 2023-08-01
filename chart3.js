@@ -117,16 +117,10 @@ async function initScatterplot() {
         .append("circle")
         .attr("cx", d => {
             const cx = xs(d.gdp);
-            console.log(d.entity)
-            console.log("Primary Energy Consumption:", d.primary_energy_consumption_per_capita);
-            console.log("Calculated CX:", cx);
             return cx;
         })
         .attr("cy", d => {
             const cy = ys(d.primary_energy_consumption_per_capita);
-            console.log(d.entity)
-            console.log("GDP:", d.gdp);
-            console.log("Calculated CY:", cy);
             return cy;
         })
         .attr("r", 6)
@@ -168,6 +162,56 @@ async function initScatterplot() {
         .style("pointer-events", "none")
         .style("font-size", "12px");
 
+
+    // ADD ANNOTATION
+    const annotationData = data.filter(function (d) {
+        return d.entity == "United States";
+    });
+    console.log(annotationData)
+    const annotationX = xs(annotationData.gdp);
+    const annotationY = ys(annotationData.primary_energy_consumption_per_capita);
+
+    // draw the circle
+    const annotation = d3.select('svg')
+        .selectAll('g.annotation_circle')
+        .data([0,0])
+        .enter()
+        .append('g')
+        .attr('class', 'annotation_circle');
+
+    annotation.append('circle')
+        // .attr("cx", d => {
+        //     const cx = xs(d.gdp);
+        //     return cx;
+        // })
+        // .attr("cy", d => {
+        //     const cy = ys(d.primary_energy_consumption_per_capita);
+        //     return cy;
+        // })
+        .attr('cx', 860)
+        .attr('cy', 120)
+        .attr('r', 15)
+        .style('fill', 'none')
+        .style('stroke', 'darkgrey')
+        .style("stroke-width", 2)
+        .style('opacity', 0.7);
+
+    // Add the arrow line
+    annotation.append("line")
+        .attr("x1", 860)
+        .attr("y1", 135)
+        .attr("x2", 810)
+        .attr("y2", 235)
+        .attr("stroke", "darkgrey") // Set arrow color to dark grey
+        .attr("stroke-width", 2);
+
+    // Add the text label
+    annotation.append("text")
+        .attr("x", 780)
+        .attr("y", 248)
+        .text("This is America!")
+        .style("fill", "black")
+        .style("font-size", 12);
 
 
 }
